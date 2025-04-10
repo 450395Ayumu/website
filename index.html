@@ -1,30 +1,129 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
-<title>たいとる</title>
-<link rel="stylesheet" href="index.css">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>算数クイズゲーム</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    #quiz, #result {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
 </head>
-
 <body>
-  <div class=header>
-    <h1>たいとる</h1>
-    <div>せつめいせつめい</div>
-  </div>
-  <div class=main>
-    <div>
-      <h2>さぶたいとる１</h2>
-      <div>
-        ほんぶん１
-      </div>
-    </div>
+  <h1>算数クイズゲーム</h1>
 
-    <div>
-      <h2>さぶたいとる２</h2>
-      <div>
-        ほんぶん２
-      </div>
-    </div>
+  <div id="difficulty-select">
+    <p>難易度を選んでください：</p>
+    <button onclick="startGame(1)">1: かんたん</button>
+    <button onclick="startGame(2)">2: ふつう</button>
+    <button onclick="startGame(3)">3: むずかしい</button>
   </div>
-  <div class=footer>
-    ふったー
+
+  <div id="quiz">
+    <p id="question-number"></p>
+    <p id="question"></p>
+    <input type="number" id="answer-input" />
+    <button onclick="submitAnswer()">答えを送信</button>
+    <p id="feedback"></p>
   </div>
+
+  <div id="result">
+    <h2>ゲーム終了！</h2>
+    <p id="score"></p>
+    <button onclick="location.reload()">もう一度プレイ</button>
+  </div>
+
+  <script>
+    let score = 0;
+    let questionCount = 10;
+    let currentQuestion = 0;
+    let correctAnswer = 0;
+    let min, max, opCount;
+
+    function startGame(difficulty) {
+      switch (difficulty) {
+        case 1:
+          min = 1; max = 9; opCount = 2;
+          break;
+        case 2:
+          min = 10; max = 99; opCount = 3;
+          break;
+        case 3:
+          min = 100; max = 999; opCount = 4;
+          break;
+      }
+      document.getElementById('difficulty-select').style.display = 'none';
+      document.getElementById('quiz').style.display = 'block';
+      showQuestion();
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function showQuestion() {
+      let a = randomInt(min, max);
+      let b = randomInt(min, max);
+      let op = Math.floor(Math.random() * opCount);
+      let questionText;
+
+      switch (op) {
+        case 0:
+          correctAnswer = a + b;
+          questionText = `${a} + ${b} = ?`;
+          break;
+        case 1:
+          correctAnswer = a - b;
+          questionText = `${a} - ${b} = ?`;
+          break;
+        case 2:
+          correctAnswer = a * b;
+          questionText = `${a} × ${b} = ?`;
+          break;
+        case 3:
+          if (b === 0) b = 1;
+          a = Math.floor(a / b) * b;
+          correctAnswer = a / b;
+          questionText = `${a} ÷ ${b} = ?`;
+          break;
+      }
+
+      currentQuestion++;
+      document.getElementById('question-number').textContent = `問題 ${currentQuestion} / ${questionCount}`;
+      document.getElementById('question').textContent = questionText;
+      document.getElementById('answer-input').value = '';
+      document.getElementById('feedback').textContent = '';
+    }
+
+    function submitAnswer() {
+      const userInput = parseInt(document.getElementById('answer-input').value);
+      const feedback = document.getElementById('feedback');
+
+      if (userInput === correctAnswer) {
+        feedback.textContent = '正解！🎉';
+        score++;
+      } else {
+        feedback.textContent = `不正解。正解は ${correctAnswer} です。`;
+      }
+
+      if (currentQuestion < questionCount) {
+        setTimeout(showQuestion, 1000);
+      } else {
+        setTimeout(showResult, 1500);
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('score').textContent = `あなたのスコアは ${score} / ${questionCount} です。`;
+    }
+  </script>
 </body>
 </html>
