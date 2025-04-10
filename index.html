@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>算数クイズゲーム</title>
+  <title>算数クイズゲーム（タイマー付き）</title>
   <style>
     body {
       font-family: sans-serif;
@@ -12,6 +12,10 @@
     #quiz, #result {
       display: none;
       margin-top: 20px;
+    }
+    #timer {
+      font-size: 1.2em;
+      color: red;
     }
   </style>
 </head>
@@ -30,6 +34,7 @@
     <p id="question"></p>
     <input type="number" id="answer-input" />
     <button onclick="submitAnswer()">答えを送信</button>
+    <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
   </div>
 
@@ -45,6 +50,8 @@
     let currentQuestion = 0;
     let correctAnswer = 0;
     let min, max, opCount;
+    let timer;
+    let timeLeft = 10;
 
     function startGame(difficulty) {
       switch (difficulty) {
@@ -99,21 +106,45 @@
       document.getElementById('question').textContent = questionText;
       document.getElementById('answer-input').value = '';
       document.getElementById('feedback').textContent = '';
+
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timeLeft = 10;
+      document.getElementById('timer').textContent = `残り時間: ${timeLeft} 秒`;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = `残り時間: ${timeLeft} 秒`;
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById('feedback').textContent = "時間切れ！不正解。";
+          if (currentQuestion < questionCount) {
+            setTimeout(showQuestion, 1500);
+          } else {
+            setTimeout(showResult, 1500);
+          }
+        }
+      }, 1000);
     }
 
     function submitAnswer() {
+      clearInterval(timer); 
       const userInput = parseInt(document.getElementById('answer-input').value);
       const feedback = document.getElementById('feedback');
 
       if (userInput === correctAnswer) {
-        feedback.textContent = '正解！🎉';
+        feedback.textContent = '正解！:tada:';
         score++;
       } else {
         feedback.textContent = `不正解。正解は ${correctAnswer} です。`;
       }
 
       if (currentQuestion < questionCount) {
-        setTimeout(showQuestion, 1000);
+        setTimeout(showQuestion, 1500);
       } else {
         setTimeout(showResult, 1500);
       }
