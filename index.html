@@ -70,6 +70,21 @@
       font-weight: bold;
       color: #ffcc00;
     }
+
+    /* ギブアップボタンの赤色 */
+    .give-up-button {
+      background-color: #ff4c4c;
+      border-radius: 10px;
+      color: white;
+      padding: 12px 24px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    .give-up-button:hover {
+      background-color: #e04343;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -93,7 +108,7 @@
     </div>
 
     <div class="give-up-row">
-      <button onclick="giveUp()">ギブアップ</button>
+      <button class="give-up-button" onclick="giveUp()">ギブアップ</button>
     </div>
 
     <p id="timer">残り時間: 10 秒</p>
