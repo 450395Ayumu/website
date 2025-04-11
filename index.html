@@ -57,6 +57,25 @@
       font-weight: bold;
       color: #ffcc00;
     }
+
+    /* ギブアップボタンを右上に配置 */
+    #quiz button.give-up {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #ff6347;  /* ギブアップボタンの色 */
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #quiz button.give-up:hover {
+      background-color: #e55347;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -75,7 +94,8 @@
     <p id="question"></p>
     <input type="number" id="answer-input" />
     <button onclick="submitAnswer()">答えを送信</button>
-    <button onclick="giveUp()">ギブアップ</button>
+    <!-- ギブアップボタンを右上に配置 -->
+    <button class="give-up" onclick="giveUp()">ギブアップ</button>
     <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
   </div>
@@ -192,6 +212,9 @@
 
     function giveUp() {
       clearInterval(timer);
+      const feedback = document.getElementById('feedback');
+      feedback.textContent = "ゲーム終了！もう一度チャレンジしてみましょう！";
+      feedback.style.color = 'orange';  // フィードバックの色をオレンジにして目立たせる
       showResult();
     }
 
