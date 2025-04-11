@@ -40,7 +40,6 @@
       border-radius: 16px;
       margin-top: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      position: relative;
     }
 
     input[type="number"] {
@@ -59,25 +58,21 @@
       color: #ffcc00;
     }
 
-    /* ギブアップボタンをさらに下に配置 */
-    #quiz button.give-up {
-      position: absolute;
-      bottom: 10000px;  /* ボタンをさらに下に配置 */
-      left: 50%;  /* 水平中央に配置 */
-      transform: translateX(-50%);  /* 完全に中央にする */
+    /* ギブアップボタンを中央下に自然配置 */
+    #give-up-btn {
       background-color: #ff6347;
       border: none;
-      padding: 10px 20px;
+      padding: 10px 24px;
       font-size: 1em;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
-      z-index: 10;
+      margin-top: 40px;
     }
 
-    #quiz button.give-up:hover {
+    #give-up-btn:hover {
       background-color: #e55347;
-      transform: translateX(-50%) scale(1.05);
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -97,8 +92,10 @@
     <p id="question"></p>
     <input type="number" id="answer-input" />
     <button onclick="submitAnswer()">答えを送信</button>
-    <!-- ギブアップボタンをさらに下に配置 -->
-    <button class="give-up" onclick="giveUp()">ギブアップ</button>
+    
+    <!-- ギブアップボタン（中央下） -->
+    <button id="give-up-btn" onclick="giveUp()">ギブアップ</button>
+    
     <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
   </div>
@@ -217,7 +214,7 @@
       clearInterval(timer);
       const feedback = document.getElementById('feedback');
       feedback.textContent = "ゲーム終了！もう一度チャレンジしてみましょう！";
-      feedback.style.color = 'orange';  // フィードバックの色をオレンジにして目立たせる
+      feedback.style.color = 'orange';
       showResult();
     }
 
