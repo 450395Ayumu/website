@@ -47,7 +47,6 @@
       font-size: 1em;
       border-radius: 8px;
       border: none;
-      margin-bottom: 10px;
       width: 100px;
       text-align: center;
     }
@@ -58,21 +57,21 @@
       color: #ffcc00;
     }
 
-    /* ギブアップボタンを中央下に自然配置 */
+    /* 数字入力とギブアップボタンを横並びに */
+    .input-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
     #give-up-btn {
       background-color: #ff6347;
-      border: none;
-      padding: 10px 24px;
-      font-size: 1em;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 40px;
     }
 
     #give-up-btn:hover {
       background-color: #e55347;
-      transform: scale(1.05);
     }
   </style>
 </head>
@@ -90,12 +89,15 @@
   <div id="quiz">
     <p id="question-number"></p>
     <p id="question"></p>
-    <input type="number" id="answer-input" />
+
+    <div class="input-row">
+      <!-- 左側にギブアップボタン -->
+      <button id="give-up-btn" onclick="giveUp()">ギブアップ</button>
+      <input type="number" id="answer-input" />
+    </div>
+
     <button onclick="submitAnswer()">答えを送信</button>
-    
-    <!-- ギブアップボタン（中央下） -->
-    <button id="give-up-btn" onclick="giveUp()">ギブアップ</button>
-    
+
     <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
   </div>
