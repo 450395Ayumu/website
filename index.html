@@ -75,6 +75,7 @@
     <p id="question"></p>
     <input type="number" id="answer-input" />
     <button onclick="submitAnswer()">答えを送信</button>
+    <button onclick="giveUp()">ギブアップ</button>
     <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
   </div>
@@ -187,6 +188,11 @@
         feedback.textContent = `不正解。正解は ${correctAnswer} です。`;
       }
       nextStep();
+    }
+
+    function giveUp() {
+      clearInterval(timer);
+      showResult();
     }
 
     function nextStep() {
