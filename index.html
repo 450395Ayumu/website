@@ -2,31 +2,72 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>算数クイズゲーム（タイマー付き）</title>
+  <title>算数クイズゲーム</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: white;
       text-align: center;
-      padding: 30px;
+      padding: 40px;
     }
+
+    h1, h2 {
+      font-weight: 600;
+    }
+
+    button {
+      background-color: #00c9a7;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00b495;
+      transform: scale(1.05);
+    }
+
     #quiz, #result {
       display: none;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 16px;
       margin-top: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
+
+    input[type="number"] {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      width: 100px;
+      text-align: center;
+    }
+
     #timer {
-      font-size: 1.2em;
-      color: red;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #ffcc00;
     }
   </style>
 </head>
 <body>
+
   <h1>算数クイズゲーム</h1>
 
   <div id="difficulty-select">
     <p>難易度を選んでください：</p>
-    <button onclick="startGame(1)">1: かんたん</button>
-    <button onclick="startGame(2)">2: ふつう</button>
-    <button onclick="startGame(3)">3: むずかしい</button>
+    <button onclick="startGame(1)">かんたん</button>
+    <button onclick="startGame(2)">ふつう</button>
+    <button onclick="startGame(3)">むずかしい</button>
   </div>
 
   <div id="quiz">
@@ -52,17 +93,18 @@
     let min, max, opCount;
     let timer;
     let timeLeft = 10;
+    let baseTime = 10;
 
     function startGame(difficulty) {
       switch (difficulty) {
         case 1:
-          min = 1; max = 9; opCount = 2;
+          min = 1; max = 9; opCount = 2; baseTime = 10;
           break;
         case 2:
-          min = 10; max = 99; opCount = 3;
+          min = 10; max = 99; opCount = 3; baseTime = 20;
           break;
         case 3:
-          min = 100; max = 999; opCount = 4;
+          min = 100; max = 999; opCount = 4; baseTime = 30;
           break;
       }
       document.getElementById('difficulty-select').style.display = 'none';
@@ -112,37 +154,42 @@
 
     function startTimer() {
       clearInterval(timer);
-      timeLeft = 10;
-      document.getElementById('timer').textContent = `残り時間: ${timeLeft} 秒`;
+      timeLeft = baseTime;
+      const timerElement = document.getElementById('timer');
+      timerElement.textContent = `残り時間: ${timeLeft} 秒`;
+      timerElement.style.color = '#ffcc00';
 
       timer = setInterval(() => {
         timeLeft--;
-        document.getElementById('timer').textContent = `残り時間: ${timeLeft} 秒`;
+        if (timeLeft <= baseTime / 3) {
+          timerElement.style.color = 'red';
+        } else if (timeLeft <= baseTime / 2) {
+          timerElement.style.color = 'orange';
+        }
+        timerElement.textContent = `残り時間: ${timeLeft} 秒`;
 
         if (timeLeft <= 0) {
           clearInterval(timer);
           document.getElementById('feedback').textContent = "時間切れ！不正解。";
-          if (currentQuestion < questionCount) {
-            setTimeout(showQuestion, 1500);
-          } else {
-            setTimeout(showResult, 1500);
-          }
+          nextStep();
         }
       }, 1000);
     }
 
     function submitAnswer() {
-      clearInterval(timer); 
+      clearInterval(timer);
       const userInput = parseInt(document.getElementById('answer-input').value);
       const feedback = document.getElementById('feedback');
-
       if (userInput === correctAnswer) {
         feedback.textContent = '正解！';
         score++;
       } else {
         feedback.textContent = `不正解。正解は ${correctAnswer} です。`;
       }
+      nextStep();
+    }
 
+    function nextStep() {
       if (currentQuestion < questionCount) {
         setTimeout(showQuestion, 1500);
       } else {
