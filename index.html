@@ -4,28 +4,31 @@
   <meta charset="UTF-8">
   <title>算数クイズゲーム</title>
   <style>
+    /* レスポンシブ対応 */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #1f1c2c, #928dab);
       color: white;
       text-align: center;
-      padding: 40px;
+      padding: 5vw;
     }
 
     h1, h2 {
       font-weight: 600;
+      font-size: 6vw;
     }
 
     button {
       background-color: #00c9a7;
       border: none;
       color: white;
-      padding: 12px 24px;
-      margin: 10px;
-      font-size: 1em;
+      padding: 2vw 4vw;
+      margin: 1vw;
+      font-size: 3vw;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      width: auto;
     }
 
     button:hover {
@@ -36,18 +39,18 @@
     #quiz, #result {
       display: none;
       background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
+      padding: 4vw;
       border-radius: 16px;
-      margin-top: 20px;
+      margin-top: 4vw;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
     input[type="number"] {
-      padding: 10px;
-      font-size: 1em;
+      padding: 2vw;
+      font-size: 3vw;
       border-radius: 8px;
       border: none;
-      width: 100px;
+      width: 25vw;
       text-align: center;
     }
 
@@ -55,18 +58,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 2vw;
+      margin-bottom: 2vw;
     }
 
     .give-up-row {
       display: flex;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 2vw;
     }
 
     #timer {
-      font-size: 1.3em;
+      font-size: 4vw;
       font-weight: bold;
       color: #ffcc00;
     }
@@ -76,14 +79,41 @@
       background-color: #ff4c4c;
       border-radius: 10px;
       color: white;
-      padding: 12px 24px;
-      font-size: 1em;
+      padding: 2vw 4vw;
+      font-size: 3vw;
       transition: all 0.3s ease;
     }
 
     .give-up-button:hover {
       background-color: #e04343;
       transform: scale(1.05);
+    }
+
+    /* メディアクエリ - スマホ向け調整 */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 8vw;
+      }
+
+      button {
+        padding: 4vw 6vw;
+        font-size: 5vw;
+      }
+
+      input[type="number"] {
+        padding: 4vw;
+        font-size: 5vw;
+        width: 60vw;
+      }
+
+      #timer {
+        font-size: 6vw;
+      }
+
+      .give-up-button {
+        padding: 4vw 6vw;
+        font-size: 5vw;
+      }
     }
   </style>
 </head>
