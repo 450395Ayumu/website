@@ -21,7 +21,7 @@
       border: none;
       color: white;
       padding: 12px 24px;
-      margin: 10px;
+      margin: 10px 0;
       font-size: 1em;
       border-radius: 10px;
       cursor: pointer;
@@ -57,17 +57,19 @@
       color: #ffcc00;
     }
 
-    /* 数字入力とギブアップボタンを横並びに */
     .input-row {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       margin-top: 20px;
     }
 
     #give-up-btn {
       background-color: #ff6347;
+      padding: 8px 16px;
+      font-size: 0.9em;
+      margin-right: 10px;
     }
 
     #give-up-btn:hover {
@@ -91,12 +93,10 @@
     <p id="question"></p>
 
     <div class="input-row">
-      <!-- 左側にギブアップボタン -->
       <button id="give-up-btn" onclick="giveUp()">ギブアップ</button>
       <input type="number" id="answer-input" />
+      <button onclick="submitAnswer()">答えを送信</button>
     </div>
-
-    <button onclick="submitAnswer()">答えを送信</button>
 
     <p id="timer">残り時間: 10 秒</p>
     <p id="feedback"></p>
@@ -214,9 +214,6 @@
 
     function giveUp() {
       clearInterval(timer);
-      const feedback = document.getElementById('feedback');
-      feedback.textContent = "ゲーム終了！もう一度チャレンジしてみましょう！";
-      feedback.style.color = 'orange';
       showResult();
     }
 
